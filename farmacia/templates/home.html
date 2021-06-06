@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+<!--Formularios-->
+<div class='container-fluid'>
+    <div class='row'>
+        {% comment %} <div class='col-sm card p-4 m-3'>
+            <h4>Cliente</h4>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{formcliente|crispy}}
+                <input type=submit class='btn btn-outline-info mt-2 btn-lg w-100'  value='Enviar'>
+            </form>
+        </div> {% endcomment %}
+        <div class='col-sm card p-4 m-3'>
+            <h4>Funcionário</h4>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{formfuncionario|crispy}}
+                <input type=submit class='btn btn-outline-info mt-2 btn-lg w-100'  value='Enviar'>
+            </form>
+        </div>
+        <div class='col-sm card p-4 m-3'>
+            <h4>Produto</h4>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{formproduto|crispy}}
+                <input type=submit class='btn btn-outline-info mt-2 btn-lg w-100'  value='Enviar'>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Formularios-->
+<!--Funcionários-->
+
+    <h4 class='h1 m-4 text-center'>Funcionários</h4>
+    <hr>
+    <table id="funcionarioTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Cargo</th>
+                    <th>Salario (R$)</th>
+                    <th>Criado em</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for f in funcionario %}
+                <tr>
+                    <td>{{f.nome}}</td>
+                    <td>{{f.sobrenome}}</td>
+                    <td>{{f.cargo}}</td>
+                    <td>{{f.salario}}</td>
+                    <td>{{f.criado_em|date:"d M, Y"}}</td>
+                    <td><a href="{% url 'deletar_funcionario' pk=f.pk %}" class='btn btn-danger'><i class="fas fa-times"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Cargo</th>
+                    <th>Salario (R$)</th>
+                    <th>Criado em</th>
+                    <th>Ação</th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+
+<!--Produtos-->
+    <h4 class='h1 m-4 text-center'>Produtos</h4>
+    
+    <hr>
+    
+    <table id="produtosTable" class="table table-striped" style="width:100%">
+        
+            <thead>
+            
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço (R$)</th>
+                    <th>Imagem</th>
+                    <th>Em estoque</th>
+                    <th>Criado em</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+            
+            {% for p in produto %}
+                <tr>
+                    <td>{{p.nome}}</td>
+                    <td>{{p.preco}}</td>
+                    <td><img src="{{p.imagem.url}}" class="rounded float-left" alt="{{p.nome}}" width='50px'></td>
+                    <td>{{p.estoque}}</td>
+                    <td>{{p.criado_em|date:"d M, Y"}}</td>
+                    <td><a href="{% url 'deletar_produto' pk=p.pk %}" class='btn btn-danger'><i class="fas fa-times"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço (R$)</th>
+                    <th>Imagem</th>
+                    <th>Em estoque</th>
+                    <th>Criado em</th>
+                    <th>Ação</th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+<!--Ordens-->
+    <h4 class='h1 m-4 text-center'>Ordens de Compra</h4>
+    <a href="{% url 'deletar_ordem_em_fila' %}"" class='btn btn-danger'>Remover em Fila (primeiro)</a>
+    <hr>
+    <table id="ordemTable" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Comprador</th>
+                    <th>Produto</th>
+                    <th>Produto Foto</th>
+                    <th>Preço (R$)</th>
+                    <th>Comprado em</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for o in ordens %}
+                <tr>
+                    <td>{{o.comprador.username}}</td>
+                    <td>{{o.produto.nome}}</td>
+                    <td><img src="{{o.produto.imagem.url}}" class="rounded float-left" alt="{{o.produto.nome}}" width='50px'></td>
+                    <td>{{o.produto.preco}}</td>
+                    <td>{{o.criado_em|date:"d M, Y h:i"}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Comprador</th>
+                    <th>Produto</th>
+                    <th>Produto Foto</th>
+                    <th>Preço (R$)</th>
+                    <th>Comprado em</th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+
+
+
+
+
+
+<div id="container" style="width: 100%;">
+<canvas id="compras-chart" data-url="{% url 'compras-chart' %}"></canvas>
+</div>
+
+<div id="container2" style="width: 100%;">
+<canvas id="compras_quicksort_chart" data-url="{% url 'compras_quicksort_chart' %}"></canvas>
+</div>
+
+{% endblock content %}
+{% block script %}
+<script>
+
+$(document).ready(function() {
+    $('#funcionarioTable').DataTable( {
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json"
+        }
+    } );
+} );
+$(document).ready(function() {
+    $('#produtosTable').DataTable( {
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json"
+        }
+    } );
+} );
+$(document).ready(function() {
+    $('#ordemTable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json"
+        }
+    } );
+} );
+
+
+
+    var ajax_call = function() {
+      var $comprasChart = $("#compras-chart");
+      $.ajax({
+        url: $comprasChart.data("url"),
+        success: function (data) {
+
+          var ctx = $comprasChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Compras',
+                backgroundColor: 'blue',
+                data: data.data
+              }]          
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Preço total de Compras'
+              },
+
+            }
+          });
+
+        }
+      });
+    };
+
+
+
+
+
+    var ajax_call2 = function() {
+      var $comprasChart = $("#compras_quicksort_chart");
+      $.ajax({
+        url: $comprasChart.data("url"),
+        success: function (data) {
+
+          var ctx = $comprasChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Compras',
+                backgroundColor: 'red',
+                data: data.data
+              }]          
+            },
+            options: {
+              responsive: true,
+              legend: {
+                display: false,
+              },
+              
+              title: {
+                display: true,
+                text: 'Preço total de Compras Ordenada (QuickSort)'
+              }
+            },
+
+          });
+
+        }
+      });
+    };
+
+
+
+    var interval = 5000;
+    setInterval(ajax_call, interval); 
+    setInterval(ajax_call2, interval); 
+
+</script> 
+{% endblock script %}

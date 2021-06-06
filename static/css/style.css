@@ -1,0 +1,22 @@
+.not-visible{
+    display:none;
+}
+.dz{
+    border:dashed !important;
+    border-color:#ccc !important;
+    border-radius: 10px !important;
+}
+.dz:hover{
+    background-color: aliceblue !important;
+}
+.profile-icon{
+    min-width:50px;
+    min-height:50px;
+    border-radius: 9999px;
+}
+.h4{
+    text-decoration: none !important;  
+}
+.h4:hover{
+    text-decoration: underline !important;
+}

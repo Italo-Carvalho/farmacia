@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+{% block scripts %}
+<link rel="stylesheet" href="{% static 'css/loja.css' %}" />
+{% endblock scripts %}
+<style>
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printDiv, #printDiv * {
+    visibility: visible;
+  }
+  #printDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+</style>
+<div class="container mydiv">
+    <div class="row">
+
+
+
+{% for produto in produtos %}
+        <div class="col-md-4">
+            <!-- bbb_deals -->
+            <div class="bbb_deals" style='padding-top: 20px;'>
+                <div class="bbb_deals_slider_container">
+                    <div class=" bbb_deals_item">
+                        <div class="bbb_deals_image"><img src="{{produto.imagem.url}}" alt=""></div>
+                        <div class="bbb_deals_content">
+                            <div class="bbb_deals_info_line d-flex flex-row justify-content-start">
+                            </div>
+                            <div class="bbb_deals_info_line d-flex flex-row justify-content-start">
+                                <div class="bbb_deals_item_name ">{{produto.nome}}</div>  
+                            </div>
+                            <div class="bbb_deals_item_price ml-auto text-success"> R$ {{produto.preco}}</div>
+
+                             <p>Em estoque: {{produto.estoque}} <i class="fas fa-boxes"></i></p>
+
+                        </div>
+                        <a href="{% url 'compra_produto' produto_pk=produto.pk user_pk=user.pk %}" class='btn btn-outline-success mt-2 btn-lg w-100'>Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+
+    {% if messages %}
+        
+        <div id='printDiv'>
+        {% for message in messages %}
+            <h2>{{ message }}</h2>
+        {% endfor %}
+        </div>
+        <script>
+            window.print();
+        </script>
+    {% endif %}
+
+
+ 
+    </div>
+</div>
+
+{% endblock content %}
+{% block script %}
+{% endblock script %}
