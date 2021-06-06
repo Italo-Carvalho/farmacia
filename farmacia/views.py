@@ -24,6 +24,11 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+def primeira_ordem():
+    ordem = Ordem_de_Compra.objects.all().order_by('pk')
+    for x in ordem:
+        return x
+
 @login_required(login_url='/login')
 def home(request):
     if request.method == 'POST':
@@ -53,6 +58,7 @@ def home(request):
         'funcionario':funcionario,
         'produto':produto,
         'ordens':ordens,
+        'primeira_ordem':primeira_ordem(),
     }
     return render(request, 'home.html', context)
 
