@@ -1,2 +1,10 @@
-env/
-env
+*.log
+*.pot
+*.pyc
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 

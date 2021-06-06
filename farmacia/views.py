@@ -24,7 +24,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-@login_required(login_url='/loja')
+@login_required(login_url='/login')
 def home(request):
     if request.method == 'POST':
         formfuncionario = FuncionarioForm(request.POST)

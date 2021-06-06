@@ -45,7 +45,7 @@
                              <p>Em estoque: {{produto.estoque}} <i class="fas fa-boxes"></i></p>
 
                         </div>
-                        <a href="{% url 'compra_produto' produto_pk=produto.pk user_pk=user.pk %}" class='btn btn-outline-success mt-2 btn-lg w-100'>Comprar</a>
+                        <a {% if user.is_authenticated %} href="{% url 'compra_produto' produto_pk=produto.pk user_pk=user.pk %}" {% else %} href="{% url 'login' %}" {% endif %} class='btn btn-outline-success mt-2 btn-lg w-100'>Comprar</a>
                     </div>
                 </div>
             </div>
